@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.qrcode.mapper.QRCodeMapper">
+    <insert id="insertQRCode" parameterType="java.util.ArrayList">
+        INSERT INTO LMSYS.LMSDOCT0
+        (BILL_ID,
+        SEQ_NO,
+        LABLE,
+        DOC,
+        MEMO,
+        CREATE_USER,
+        CREATE_TIME
+
+        )
+        SELECT A.*
+        FROM(
+        <foreach collection="insertQRCodeEntityList" item="insertQRCodeEntityList" index="index" separator="UNION ALL">
+          SELECT
+          #{insertQRCodeEntityList.BILL_ID},
+          #{insertQRCodeEntityList.SEQ_NO},
+          #{insertQRCodeEntityList.LABLE},
+          #{insertQRCodeEntityList.DOC,jdbcType=BLOB,javaType=java.io.InputStream},
+          #{insertQRCodeEntityList.MEMO},
+          #{insertQRCodeEntityList.CREATE_USER},
+          #{insertQRCodeEntityList.CREATE_TIME}
+
+          from dual
+        </foreach>
+        )A
+
+    </insert>
+</mapper>
